@@ -17,7 +17,7 @@ public class User {
 		this.lastName = lastName;
 		 
 		try {
-			MessageDigest md = MessageDigest.getInstance("MDS");
+			MessageDigest md = MessageDigest.getInstance("MD5");
 			this.pinHash = md.digest(pin.getBytes());
 		} catch (NoSuchAlgorithmException e) {
 			System.err.println("error, caught NoSuchAlgorithmException");
@@ -41,6 +41,17 @@ public class User {
 	
 	public String getUUID() {
 		return this.uuid;
+	}
+	public boolean validatePin(String aPin) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			return MessageDigest.isEqual(md.digest(aPin.getBytes()), this.pinHash);
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("error, caught NoSuchAlgorithmException");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return false;
 	}
 }
 
